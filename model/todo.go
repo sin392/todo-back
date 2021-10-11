@@ -3,6 +3,30 @@ package model
 import "time"
 
 type (
+	// Request
+	CreateTODORequest struct {
+		Subject     string `json:"subject"`
+		Description string `json:"description"`
+	}
+	ReadTODORequest struct {
+		ID string `json:"id"`
+	}
+	ReadTODOsRequest struct {
+		Skip  *string `json:"skip"`
+		Limit *string `json:"limit"`
+	}
+	UpdateTODORequest struct {
+		ID          string `json:"id"`
+		Subject     string `json:"subject"`
+		Description string `json:"description"`
+	}
+	DeleteTODORequest struct {
+		ID string `json:"id"`
+	}
+	DeleteTODOsRequest struct {
+		IDs []string `json:"ids"`
+	}
+	// Response
 	TODO struct {
 		ID          int       `json:"id"`
 		Subject     string    `json:"subject"`
@@ -10,30 +34,10 @@ type (
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 	}
-
-	CreateTODORequest struct {
-		Subject     string `json:"subject"`
-		Description string `json:"description"`
-	}
-	CreateTODOResponse struct {
+	TODOResponse struct {
 		TODO TODO `json:"todo"`
 	}
-
-	ReadTODORequest struct {
-		ID int `json:"id"`
+	TODOsResponse struct {
+		TODOs []TODO `json:"todos"`
 	}
-	ReadTODOResponse struct {
-		TODO TODO `json:"todo"`
-	}
-
-	UpdateTODORequest struct {
-		Subject     string `json:"subject"`
-		Description string `json:"description"`
-	}
-	UpdateTODOResponse struct {
-		TODO TODO `json:"todo"`
-	}
-
-	DeleteTODORequest  struct{}
-	DeleteTODOResponse struct{}
 )
