@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"log"
 	"net/http"
 	"strings"
@@ -24,14 +24,15 @@ func NewTODOHandler(svc *service.TODOService) *TODOHandler {
 
 func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
+	enc := json.NewEncoder(w)
 	ctx := r.Context()
 	switch r.Method {
 	case "POST":
-		todos, err := h.createTODO(ctx, r)
+		res, err := h.createTODO(ctx, r)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Fprintln(w, todos)
+		enc.Encode(&res)
 	case "GET":
 		var res interface{}
 		var err error
@@ -43,7 +44,7 @@ func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Fprintln(w, res)
+		enc.Encode(&res)
 	case "PUT":
 		h.updateTODO(ctx, r)
 	case "DELETE":

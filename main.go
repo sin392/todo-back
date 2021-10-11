@@ -19,7 +19,7 @@ func main() {
 	})
 	http.Handle("/todo", handler.NewTODOHandler(service.NewTODOService(db)))
 
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+	if err := http.ListenAndServe(":3001", nil); err != nil {
 		log.Fatal("ListenAndServe failed.", err)
 	}
 }
