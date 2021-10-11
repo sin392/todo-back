@@ -60,54 +60,54 @@ func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *TODOHandler) createTODO(ctx context.Context, r *http.Request) (*model.TODOResponse, error) {
+func (h *TODOHandler) createTODO(ctx context.Context, r *http.Request) (*model.TODO, error) {
 	var req *model.CreateTODORequest
 	err := utils.DecodeBody(r, &req)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
-	todo, err := h.svc.CreateTODO(ctx, &model.CreateTODORequest{Subject: req.Subject, Description: req.Description})
+	res, err := h.svc.CreateTODO(ctx, &model.CreateTODORequest{Subject: req.Subject, Description: req.Description})
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
-	return &model.TODOResponse{TODO: *todo}, err
+	return res, err
 }
 
-func (h *TODOHandler) ReadTODO(ctx context.Context, r *http.Request) (*model.TODOResponse, error) {
+func (h *TODOHandler) ReadTODO(ctx context.Context, r *http.Request) (*model.TODO, error) {
 	id := r.URL.Query().Get("id")
 
-	todo, err := h.svc.ReadTODO(ctx, &model.ReadTODORequest{ID: id})
+	res, err := h.svc.ReadTODO(ctx, &model.ReadTODORequest{ID: id})
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
-	return &model.TODOResponse{TODO: *todo}, err
+	return res, err
 }
 
-func (h *TODOHandler) ReadTODOs(ctx context.Context, r *http.Request) (*model.TODOsResponse, error) {
+func (h *TODOHandler) ReadTODOs(ctx context.Context, r *http.Request) (*[]model.TODO, error) {
 	skip := r.URL.Query().Get("skip")
 	limit := r.URL.Query().Get("limit")
 
-	todos, err := h.svc.ReadTODOs(ctx, &model.ReadTODOsRequest{Skip: &skip, Limit: &limit})
+	res, err := h.svc.ReadTODOs(ctx, &model.ReadTODOsRequest{Skip: &skip, Limit: &limit})
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
-	return &model.TODOsResponse{TODOs: *todos}, err
+	return res, err
 }
 
-func (h *TODOHandler) updateTODO(ctx context.Context, r *http.Request) (*model.TODOResponse, error) {
+func (h *TODOHandler) updateTODO(ctx context.Context, r *http.Request) (*model.TODO, error) {
 	var req *model.UpdateTODORequest
 	utils.DecodeBody(r, &req)
-	todo, err := h.svc.UpdateTODO(ctx, &model.UpdateTODORequest{ID: req.ID})
+	res, err := h.svc.UpdateTODO(ctx, &model.UpdateTODORequest{ID: req.ID})
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	return &model.TODOResponse{TODO: *todo}, err
+	return res, err
 }
 
 func (h *TODOHandler) deleteTODO(ctx context.Context, r *http.Request) error {

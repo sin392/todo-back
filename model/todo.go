@@ -34,10 +34,4 @@ type (
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 	}
-	TODOResponse struct {
-		TODO TODO `json:"todo"`
-	}
-	TODOsResponse struct {
-		TODOs []TODO `json:"todos"`
-	}
 )
